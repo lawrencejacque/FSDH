@@ -20,11 +20,11 @@ class BaziCalculator:
     # From 1950 until 1981, Singapore’s civil time was UTC+7:30, not +8:00. On 1 Jan 1982, Singapore advanced clocks by 30 minutes, switching to UTC+8:00 permanently.
     # ------------------------------
     def _get_singapore_tz_offset_hours_1950_onwards(dt: datetime) -> float:
-    """
-    Historical Singapore UTC offset for civil time, 1950+.
-    Before 1982-01-01: UTC+7:30
-    From 1982-01-01 onwards: UTC+8:00
-    """
+    # ------------------------------
+    # Historical Singapore UTC offset for civil time, 1950+.
+    # Before 1982-01-01: UTC+7:30
+    # From 1982-01-01 onwards: UTC+8:00
+    # ------------------------------
     cutoff = datetime(1982, 1, 1, 0, 0)
     if dt < cutoff:
         return 7.5  # UTC+07:30 (pre-1982 Singapore)
@@ -35,13 +35,13 @@ class BaziCalculator:
     # True solar time conversion
     # ------------------------------
     def to_true_solar_time(self, year, month, day, hour, minute, longitude: float, tz_offset: float):
-        """
-        Convert local civil time to approximate true solar time based on longitude.
-        - longitude: degrees East (east positive, west negative)
-        - tz_offset: hours offset from UTC (e.g. Singapore = 8)
-        Returns a datetime (local true solar time).
-        Note: This uses longitude/time-zone meridian offset only (adequate for hour pillar).
-        """
+    # ------------------------------
+    # Convert local civil time to approximate true solar time based on longitude.
+    # longitude: degrees East (east positive, west negative)
+    # tz_offset: hours offset from UTC (e.g. Singapore = 8)
+    # Returns a datetime (local true solar time).
+    # Note: This uses longitude/time-zone meridian offset only (adequate for hour pillar).
+    # ------------------------------
         standard_longitude = tz_offset * 15.0
         diff_hours = (longitude - standard_longitude) / 15.0
         delta = timedelta(hours=diff_hours)
@@ -53,12 +53,12 @@ class BaziCalculator:
     # Main calculation
     # ------------------------------
     def calculate_bazi(self, year, month, day, hour, minute, longitude: float = 103.8, tz_offset: float | None = None):
-        """
-        Calculate BaZi (four pillars) and five-element analysis.
-        longitude: degrees east (Singapore ≈ 103.8). tz_offset: hours from UTC.
-        Returns a dict containing pillars, five-element scores, percentages, ranking,
-        weak elements, strategies, classification, and English interpretation.
-        """
+        
+        #Calculate BaZi (four pillars) and five-element analysis.
+        #longitude: degrees east (Singapore ≈ 103.8). tz_offset: hours from UTC.
+        #Returns a dict containing pillars, five-element scores, percentages, ranking,
+        #weak elements, strategies, classification, and English interpretation.
+        
         civil_dt = datetime(year, month, day, hour, minute)
 
         if tz_offset is None:
@@ -215,4 +215,5 @@ class BaziCalculator:
 def calculate_bazi(year, month, day, hour, minute, longitude: float = 103.8, tz_offset: float = 8.0):
     calc = BaziCalculator()
     return calc.calculate_bazi(year, month, day, hour, minute, longitude, tz_offset)
+
 
